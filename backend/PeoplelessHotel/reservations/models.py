@@ -8,6 +8,8 @@ class ReservationStatus(Enum):
 
     RESERVED = "RESERVED"
     CANCELED = "CANCELED"
+    CHECKED_IN = "CHECKED_IN"
+    CHECKED_OUT = "CHECKED_OUT"
 
     @classmethod
     def choices(cls):
@@ -16,7 +18,9 @@ class ReservationStatus(Enum):
 
 
 class Reservations(models.Model):
-    token = models.CharField(max_length=256, null=True, blank=True)
+    num_of_guests = models.IntegerField(null=False, blank=False)
+    checkin_date = models.DateField(null=True, blank=True)
+    num_of_days = models.IntegerField(null=False, blank=False)
     status = models.CharField(max_length=32, null=True, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
 
