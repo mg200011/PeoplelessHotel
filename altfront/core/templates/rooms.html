@@ -1,0 +1,103 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="pcoded-content">
+        <div class="pcoded-inner-content">
+            <!-- [ breadcrumb ] start -->
+
+            <!-- [ breadcrumb ] end -->
+            <div class="main-body">
+                <div class="page-wrapper">
+                    <!-- [ Main Content ] start -->
+                    <div class="row">
+                        
+                        <!-- [ statistics year chart ] start -->
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card card-event">
+                                <div class="card-block">
+                                    <h3 class="text-muted mt-4 mb-0">Room 101</h3>
+                                    <h4 class="text-muted mt-4 mb-0">4 beds, air conditioning, lots of roaches</h4>
+
+                                    <div class="card-block table-border-style">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Access</th>
+                                                        <th>Name</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><input type="checkbox"/></td>
+                                                        <td>Bubus</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><input type="checkbox"/></td>
+                                                        <td>Astor</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-primary">Save</button>
+                                    <h4 class="text-muted mt-4 mb-0"></h4>                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                                     
+                        <!-- [ statistics year chart ] start -->
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card card-event">
+                                <div class="card-block">
+                                    <h3 class="text-muted mt-4 mb-0">Room 102</h3>
+                                    <h4 class="text-muted mt-4 mb-0">1 bed, giant motra under bed</h4>
+
+                                    <div class="card-block table-border-style">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Access</th>
+                                                        <th>Name</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><input type="checkbox"/></td>
+                                                        <td>Bubus</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><input type="checkbox"/></td>
+                                                        <td>Astor</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-primary">Save</button>
+                                    <h4 class="text-muted mt-4 mb-0"></h4>                                    
+                                </div>
+                            </div>
+                        </div>
+
+
+                        
+                    </div>
+                    <!-- [ Main Content ] end -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
