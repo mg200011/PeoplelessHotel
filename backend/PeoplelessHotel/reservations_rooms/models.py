@@ -25,3 +25,7 @@ class Reservations_Rooms(models.Model):
     checkin_date = models.DateField(null=True, blank=True)
     num_of_days = models.IntegerField(null=False, blank=False)
     status = models.CharField(max_length=32, null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Reservations Rooms"
+        verbose_name_plural = "Reservations Rooms"

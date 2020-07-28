@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url, include
 from django.views.generic import TemplateView, RedirectView
+from django.views.static import serve
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,5 +28,3 @@ urlpatterns = [
     path('reservations_rooms/', include("reservations_rooms.urls")),
     path('rooms/', include("rooms.urls")),
 ]
-
-urlpatterns.append(url(r"", RedirectView.as_view(url="/admin")))

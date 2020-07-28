@@ -9,3 +9,7 @@ class Loyalty_Program(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     points = models.IntegerField(null=False, blank=False)
     description = models.TextField()
+
+    class Meta:
+        verbose_name = "Loyalty Program"
+        verbose_name_plural = "Loyalty Program"

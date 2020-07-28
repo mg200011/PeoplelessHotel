@@ -9,3 +9,7 @@ class Rooms(models.Model):
     description = models.TextField()
     amenities = models.TextField()
     creation_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Room"
+        verbose_name_plural = "Rooms"

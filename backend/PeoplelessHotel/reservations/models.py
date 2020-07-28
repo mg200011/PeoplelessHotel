@@ -19,3 +19,7 @@ class Reservations(models.Model):
     token = models.CharField(max_length=256, null=True, blank=True)
     status = models.CharField(max_length=32, null=True, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Reservation"
+        verbose_name_plural = "Reservations"

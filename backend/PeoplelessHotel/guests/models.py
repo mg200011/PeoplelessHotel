@@ -13,3 +13,7 @@ class Guests(models.Model):
     image_sample_1 = models.ImageField(upload_to='uploads/')
     image_sample_2 = models.ImageField(upload_to='uploads/')
     image_sample_3 = models.ImageField(upload_to='uploads/')
+
+    class Meta:
+        verbose_name = "Guest"
+        verbose_name_plural = "Guests"
