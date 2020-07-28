@@ -42,16 +42,38 @@
         </div>
     </div>    
     
-    {% include 'includes/navigation.html' %}
 
-    <div class="pcoded-main-container">
-        <div class="pcoded-wrapper">
+        <div class="pcoded-wrapper">            
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a href="/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Reservations</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="/guests.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-user"></i></span><span class="pcoded-mtext">Guests</span></a>
+                </li>
+        
+                <li class="nav-item">
+                    <a href="/rooms.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Rooms</span></a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="/loyalty.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-trending-up"></i></span><span class="pcoded-mtext">Loyalty</span></a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="/ui-tables.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-help-circle"></i></span><span class="pcoded-mtext">Help</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a href={% url 'logout' %} class="nav-link "><span class="pcoded-micon"><i class="feather icon-power"></i></span><span class="pcoded-mtext">Logout</span></a>
+                </li>
+            </ul>
 
             {% block content %}{% endblock content %}
 
         </div>
-    </div>
-
+ 
     {% include 'includes/scripts.html' %}
 
     <!-- Specific Page JS goes HERE  -->
