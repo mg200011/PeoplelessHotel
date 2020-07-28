@@ -1,2 +1,6 @@
 /.vscode/
 /.idea/
+frontend/www
+frontend/android
+frontend/ios
+frontend/node_modules

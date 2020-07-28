@@ -1,7 +1,5 @@
 {
-  "name": "PeopleLess",
-  "integrations": {
-    "capacitor": {}
-  },
+  "name": "peopleless",
+  "integrations": {},
   "type": "angular"
 }
