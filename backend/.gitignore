@@ -1,9 +1,1 @@
-/SAS/.idea/
-/SAS/.DS_Store
-/SAS/ESB Module/
-/Logs/
 *.cpython-36.pyc
-/sas_venv/
-/.vscode/
-/.idea/
-.env
