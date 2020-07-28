@@ -74,6 +74,21 @@ a:hover {
   outline: none;
   text-decoration: none;
 }
+.card-login{
+  border-radius:15px !important;
+}
+
+.img-login{
+  width:50%; 
+  height:50%; 
+  border-radius:15px;
+}
+
+.btn-login{
+  color: #fff;
+  border-color: #04a9f5;
+  background-color: #54B848;
+}
 
 h1,
 h2,
@@ -7478,12 +7493,12 @@ table.footable-paging-center > tfoot > tr.footable-paging > td {
 .auth-wrapper .auth-bg .r:first-child {
   top: -100px;
   right: -100px;
-  background: linear-gradient(-135deg, #1de9b6 0%, #1dc4e9 100%);
+  background: linear-gradient(-135deg, #E1BE58 0%, #E17F58 100%);
 }
 .auth-wrapper .auth-bg .r:last-child {
   left: -100px;
   bottom: -100px;
-  background: linear-gradient(-135deg, #899FD4 0%, #A389D4 100%);
+  background: linear-gradient(-135deg, #020201 0%, #54B848 100%);
 }
 .auth-wrapper .auth-bg .r.s {
   width: 20px;
