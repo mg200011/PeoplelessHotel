@@ -5,7 +5,7 @@ from .models import Guests
 
 
 class GuestsAdmin(admin.ModelAdmin):
-    list_display = ['id','name','passport','birthdate']
-    search_fields = ('id','name','passport','birthdate')
+    list_display = ['id','name','passport']
+    search_fields = ('id','name','passport')
     pass
 admin.site.register(Guests, GuestsAdmin)

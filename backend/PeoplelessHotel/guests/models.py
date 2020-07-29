@@ -14,7 +14,6 @@ class Guests(models.Model):
     reservation = models.ForeignKey(Reservations, on_delete=models.CASCADE, related_name="guests_rooms")
     name = models.CharField(max_length=128, null=True, blank=True)
     passport = models.CharField(max_length=64, null=True, blank=True)
-    birthdate = models.DateField(null=True, blank=True)
     image_sample_1 = models.ImageField(upload_to='uploads/', null=True)
     image_sample_2 = models.ImageField(upload_to='uploads/', null=True)
     image_sample_3 = models.ImageField(upload_to='uploads/', null=True)
