@@ -1,6 +1,7 @@
 import base64
 import json
 
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
@@ -154,6 +155,8 @@ class GuestsService(ModelViewSet):
 
             person = face_client.person_group_person.create(person_group_id, int(guest_id))
 
+            Guests.objects.filter(pk=int(guest_id)).update(person_id=person.person_id)
+
             guest_record = Guests.objects.get(pk=int(guest_id))
 
             if guest_record.image_sample_1 is not None:
@@ -202,10 +205,9 @@ class GuestsService(ModelViewSet):
         except Exception as E:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-
+    @classmethod
     @csrf_exempt
-    @api_view(['POST'])
-    def identify_in_person_group(request, room_id):
+    def identify_in_person_group(cls, request, room_id):
 
         try:
             # Create an authenticated FaceClient.
@@ -221,9 +223,9 @@ class GuestsService(ModelViewSet):
             # Store PERSON_GROUP_ID to given reservation
             reservation_results = Reservations.objects.filter(rooms__room__id=int(room_id), status="CHECKED_IN")
 
-            if reservation_results:
+            if len(reservation_results) > 0:
 
-                data = request.data
+                data = JSONParser().parse(request)
                 image = data['image']
 
                 format, imgstr = image.split(';base64,')
@@ -240,15 +242,22 @@ class GuestsService(ModelViewSet):
                 for face in faces:
                     face_ids.append(face.face_id)
 
-                # Identify faces
-                results = face_client.face.identify(face_ids, reservation_results[0].person_group_id)
+                if len(face_ids) > 0 :
+                    # Identify faces
+                    results = face_client.face.identify(face_ids, reservation_results[0].person_group_id)
 
-                if not results:
-                    return Response(json.dumps({'message': 'Do not open the door'}), status=status.HTTP_404_NOT_FOUND)
+                    if not results:
+                        return HttpResponse({"result": "Access Denied!"}, status=403)
+                    else:
+                        tmp_guest = Guests.objects.filter(person_id=results[0].candidates[0].person_id)
+                        if json.dumps(tmp_guest[0].rooms).__contains__(str(room_id)):
+                            return HttpResponse({"result": "Success!", "data": GuestsSerializer(tmp_guest[0])}, status=200)
+                        else:
+                            return HttpResponse({"result": "Access Denied for that room!"}, status=403)
                 else:
-                    return Response(json.dumps({'message': 'Open the door'}), status=status.HTTP_302_FOUND)
+                    return HttpResponse({"result": "No faces detected!"}, status=403)
             else:
-                return Response(json.dumps({'message': 'Do not open the door'}), status=status.HTTP_404_NOT_FOUND)
+                return HttpResponse({"result": "Access Denied!"}, status=403)
 
 
             # for person in results:

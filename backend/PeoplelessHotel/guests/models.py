@@ -15,6 +15,7 @@ class Guests(models.Model):
     name = models.CharField(max_length=128, null=True, blank=True)
     rooms = models.CharField(max_length=256, null=True, blank=True)
     passport = models.CharField(max_length=64, null=True, blank=True)
+    person_id = models.CharField(max_length=128, null=True, blank=True)
     image_sample_1 = models.ImageField(upload_to='uploads/', null=True)
     image_sample_2 = models.ImageField(upload_to='uploads/', null=True)
     image_sample_3 = models.ImageField(upload_to='uploads/', null=True)
