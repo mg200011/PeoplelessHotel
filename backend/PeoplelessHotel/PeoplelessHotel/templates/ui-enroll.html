@@ -215,7 +215,7 @@
 
         postobj.reservation = reservationid;
 
-        if(portrait1.base64str || portrait2.base64str || portrait3.base64str) { 
+        if(postobj.name && (portrait1.base64str && portrait2.base64str && portrait3.base64str)) { 
           let res = await proxy.gpost("/guests/", postobj);
           console.log(res);
 

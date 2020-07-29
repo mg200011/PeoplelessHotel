@@ -60,7 +60,7 @@ class ServicesProxy {
     
     async verifyPerson(roomid, image) {
         const s = new Services();
-        let url = `/guests/identify_in_person_group/${room_id}/`; 
+        let url = `/guests/identify_in_person_group/${roomid}/`; 
         console.log(url);        
         let res = await s.gpost(url, { image: image } );
         console.log(res);
