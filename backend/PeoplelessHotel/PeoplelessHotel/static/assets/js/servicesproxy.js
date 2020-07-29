@@ -7,5 +7,9 @@ class ServicesProxy {
         return await s.gget("/reservations");
     }
 
+    async getRooms() {
+        const s = new Services();
+        return await s.gget("/rooms");
+    }
 
 }
