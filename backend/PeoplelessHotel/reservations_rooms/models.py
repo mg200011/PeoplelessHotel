@@ -14,3 +14,6 @@ class Reservations_Rooms(models.Model):
     class Meta:
         verbose_name = "Reservations Rooms"
         verbose_name_plural = "Reservations Rooms"
+
+    def __str__(self):
+        return str(self.reservation) + '-' + str(self.room)

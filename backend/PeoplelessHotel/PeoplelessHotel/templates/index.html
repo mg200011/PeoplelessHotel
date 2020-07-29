@@ -15,9 +15,10 @@
             <div class="main-body">
                 <div class="page-wrapper">
                     <!-- [ Main Content ] start -->
-                    <div class="row">
+                    <div class="row" id="reservations_container">
                         
                         <!-- [ statistics year chart ] start -->
+                        <template id="template_checkin_missing">
                         <div class="col-xl-4 col-md-6">
                             <div class="card card-event">
                                 <div class="card-block">
@@ -32,10 +33,12 @@
                                 </div>
                             </div>
                         </div>
+                        </template>
                         
                         
                         <!-- [ statistics year chart ] start -->
-                        <div class="col-xl-4 col-md-6">
+                        <template id="template_checkin_ready">
+                            <div class="col-xl-4 col-md-6">
                             <div class="card card-event">
                                 <div class="card-block">
                                     <h3 class="text-muted mt-4 mb-0">Reservation</h3>
@@ -52,10 +55,12 @@
                                 </div>
                             </div>
                         </div>
+                        </template>
                         
 
 
-                        <div class="col-xl-4 col-md-6">
+                        <template id="template_none">
+                            <div class="col-xl-4 col-md-6">
                             <div class="card card-event">
                                 <div class="card-block">
                                     <div class="row align-items-center justify-content-center">
@@ -66,6 +71,7 @@
                                 </div>
                             </div>
                         </div>
+                        </template>
                         
                         
                     </div>
@@ -74,6 +80,34 @@
             </div>
         </div>
     </div>
+
+
+<script>
+     document.addEventListener("DOMContentLoaded", async () => {
+        var s= new ServicesProxy();
+        var r = await s.getReservations();
+        if(r && r.length>0) {
+
+            for(var c=0; c<r.length; c++) {
+                let res = r[c];
+                if(res.status!="OK") {
+                    const clone = template_checkin_missing.content.firstElementChild.cloneNode(true);
+                    reservations_container.appendChild(clone);
+
+                } else {
+                    const clone = template_checkin_ready.content.firstElementChild.cloneNode(true);
+                    reservations_container.appendChild(clone);
+                }
+            }
+
+        } else {
+            const clone = template_none.content.firstElementChild.cloneNode(true);
+            reservations_container.appendChild(clone);
+        }
+    });
+</script>
+
+
 
 {% endblock content %}
 

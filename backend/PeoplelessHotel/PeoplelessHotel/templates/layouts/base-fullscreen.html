@@ -34,6 +34,22 @@
 </head>
 
 <body>
+
+    <!-- Add spinner object and methods -->
+    <div id="cover-spin"></div>
+    <script>
+        function showSpinner() {
+            console.log("show spinner");
+            $('#cover-spin').show(0);                
+        }
+
+        function hideSpinner() {
+            console.log("hide    spinner");
+            $('#cover-spin').hide(0);
+        }    
+    </script>
+    <!-- End spinner methods -->
+    
     
     {% block content %}{% endblock content %}
 
