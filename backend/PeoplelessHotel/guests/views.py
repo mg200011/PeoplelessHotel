@@ -75,7 +75,7 @@ class GuestsService(ModelViewSet):
             # Store PERSON_GROUP_ID to given reservation
             Reservations.objects.filter(pk=reservation_id).update(person_group_id=PERSON_GROUP_ID)
 
-            return PERSON_GROUP_ID
+            return Response(PERSON_GROUP_ID, status=status.HTTP_201_CREATED)
 
         except Exception as E:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -106,7 +106,7 @@ class GuestsService(ModelViewSet):
                 w = open(guest_record.image_sample_3.path, 'r+b')
                 face_client.person_group_person.add_face_from_stream(person_group_id, person.person_id, w)
 
-            return True
+            return Response(status=status.HTTP_200_OK)
 
         except Exception as E:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -132,11 +132,11 @@ class GuestsService(ModelViewSet):
                 if training_status.status is TrainingStatusType.succeeded:
                     break
                 elif training_status.status is TrainingStatusType.failed:
-                    return False
+                    return Response(status=status.HTTP_404_NOT_FOUND)
                 time.sleep(5)
             print("Training complete")
 
-            return True
+            return Response(status=status.HTTP_200_OK)
 
         except Exception as E:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -203,7 +203,7 @@ class GuestsService(ModelViewSet):
             face_client.person_group.delete(person_group_id)
             print("Deleted the person group {} from the target location.".format(person_group_id))
 
-            return True
+            return Response(status=status.HTTP_200_OK)
 
         except Exception as E:
             return Response(status=status.HTTP_400_BAD_REQUEST)
