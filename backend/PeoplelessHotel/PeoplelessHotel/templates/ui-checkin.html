@@ -70,21 +70,6 @@
                                               </div>
                                             </div>
                                           </div>
-                                          <div class="form-row">
-                                            <div class="col-md-6 mb-6">
-                                               <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="carChecked">
-                                                    <label class="custom-control-label" for="carChecked" onclick="checkCar()">Arriving with a car</label>
-                                                 </div>
-                                            </div>
-                                            <div class="col-md-3 mb-6">
-                                              <label for="validationCar">Car Registration number</label>
-                                              <input type="text" class="form-control" id="validationCar" placeholder="Please insert car registration number" disabled>
-                                              <div class="invalid-feedback">
-                                                Please provide a valid state.
-                                              </div>
-                                            </div>
-                                          </div>
                                           
                                           <h5 class="mt-5">Pay Method</h5>
                                            <hr>
@@ -103,7 +88,11 @@
                                                   <label class="custom-control-label" for="paypal">Paypal</label>
                                                 </div>
                                             </div>
-                                       
+                                          </div>
+                                          <br>
+                                          <div class="form-row">
+                                        
+                                   
                                           <div class="col-6 col-md-4">
                                             <label for="cc-name">Name on card</label>
                                             <input type="text" class="form-control" id="cc-name" placeholder="" required="">
@@ -120,7 +109,9 @@
                                             </div>
                                           </div>
                                         </div>
-                                        </div>
+
+                                        <br>
+                                        
                                         <div class="form-row">
                                           <div class="col-6 col-md-6">
                                             <label for="cc-expiration">Expiration</label>
@@ -138,14 +129,14 @@
                                           </div>
                                           </div>
                                           
-                                          </div>
-                                          </div>
-                                          <div class="form-actions">
-    <button type="submit" class="btn btn-login btn-lg btn-block">CHECK-IN</button>
-</div>
+                                          <br>
                                           
-
-                                        </form>
+                                        <div class="form-row">
+                                          <div class="form-actions">
+                                            <a href="javascript:commitCheckin()" class="btn btn-info" role="button">Check IN</a>                               
+                                        </div>                  
+                                      </div>                  
+                                    </form>
                                     </div>
                                 </div>
                             </div>
@@ -163,9 +154,29 @@
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 <script>
-// Example starter JavaScript for disabling form submissions if there are invalid fields
+  
+  
+async function commitCheckin() {
+    try { 
+    const params = new URLSearchParams(window.location.search);
+    let reserveid = params.get("reserve");
+    let proxy = new ServicesProxy();
+    let fullres = await proxy.getReservation(reserveid);
+    if(fullres) {
+      fullres.status = "CHECKED_IN";
+      await proxy.updateReservation(fullres);
+    } else {
+      console.error("failed to update");
+    }
+  } catch(ex) {
+    console.error(ex);
+  }
+
+};
+
 (function() {
   'use strict';
+
   window.addEventListener('load', function() {
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
     var forms = document.getElementsByClassName('needs-validation');

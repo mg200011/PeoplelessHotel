@@ -18,45 +18,15 @@
                     <div class="row" id="reservations_container">
                         
                         <!-- [ statistics year chart ] start -->
-                        <template id="template_checkin_missing">
+                        <template id="template_reservation">
                         <div class="col-xl-4 col-md-6">
                             <div class="card card-event">
                                 <div class="card-block">
-                                    <h3 class="text-muted mt-4 mb-0">Reservation</h3>
-                                    <h4 class="text-muted mt-4 mb-0">Number: 12345</h4>
-                                    <h4 class="text-muted mt-4 mb-0">To: Bubus & CIA</h4>
-                                    <h4 class="text-muted mt-4 mb-0">From 10/10/2020 to 10/20/2020 </h4>
-                                    <h4 class="text-muted mt-4 mb-0">Guests: 4</h4>
-                                    <h4 class="text-muted mt-4 mb-0"></h4>               
-                                    <a href="/ui-checkin.html" class="btn btn-info" role="button">Check IN</a>                     
-                                    <h4 class="text-muted mt-4 mb-0"></h4>                                    
                                 </div>
                             </div>
                         </div>
                         </template>
-                        
-                        
-                        <!-- [ statistics year chart ] start -->
-                        <template id="template_checkin_ready">
-                            <div class="col-xl-4 col-md-6">
-                            <div class="card card-event">
-                                <div class="card-block">
-                                    <h3 class="text-muted mt-4 mb-0">Reservation</h3>
-                                    <h4 class="text-muted mt-4 mb-0">Number: 12345</h4>
-                                    <h4 class="text-muted mt-4 mb-0">To: Bubus & CIA</h4>
-                                    <h4 class="text-muted mt-4 mb-0">From 10/10/2020 to 10/20/2020 </h4>
-                                    <h4 class="text-muted mt-4 mb-0">Guests: 4</h4>
-                                    <h4 class="text-muted mt-4 mb-0">Room 103</h4>
-                                    <h4 class="text-muted mt-4 mb-0">Room 104</h4>
-                                    <h4 class="text-muted mt-4 mb-0">Carlitos y pepe</h4>
-                                    <h4 class="text-muted mt-4 mb-0"></h4>                                    
-                                    <button type="button" class="btn btn-outline-success">Check in complete</button>
-                                    <h4 class="text-muted mt-4 mb-0"></h4>                                    
-                                </div>
-                            </div>
-                        </div>
-                        </template>
-                        
+                                                
 
 
                         <template id="template_none">
@@ -87,17 +57,105 @@
         var s= new ServicesProxy();
         var r = await s.getReservations();
         if(r && r.length>0) {
-
+            
             for(var c=0; c<r.length; c++) {
                 let res = r[c];
-                if(res.status!="OK") {
-                    const clone = template_checkin_missing.content.firstElementChild.cloneNode(true);
-                    reservations_container.appendChild(clone);
+                const clone = template_reservation.content.firstElementChild.cloneNode(true);
 
-                } else {
-                    const clone = template_checkin_ready.content.firstElementChild.cloneNode(true);
-                    reservations_container.appendChild(clone);
+                let node_str = `
+                <span class="label label-${res.status=="RESERVED" ? "success" : "info"}">${res.status}</span><h3 class="text-muted mt-4 mb-0">Reservation (${res.id})</h3>
+                        <h4 class="text-muted mt-4 mb-0">Check-in: ${res.checkin_date}</h4>
+                        <h4 class="text-muted mt-4 mb-0">Days: ${res.num_of_days}, guests: ${res.num_of_guests}</h4>
+                 `;
+
+                 if(res.rooms.length>0) {
+                    node_str += `<h4 class="text-muted mt-4 mb-0">Rooms: ${res.rooms.length}</h4>`;                            
+                    node_str += `
+                        <div class="table-responsive">
+                        <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Number</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+
+                    for(let c=0; c<res.rooms.length; c++) {
+                    node_str += `
+                        <tr>
+                            <td>${res.rooms.id}</td>
+                            <td>${res.rooms.id}</td>
+                            <td>${res.rooms.id}</td>
+                        </tr>`;
+                    }
+
+                    node_str += `
+                        </tbody>
+                        </table>
+                        </div>`;                    
+                
+                 }
+
+                if(res.status=="RESERVED") {
+                    node_str += `<h4 class="text-muted mt-4 mb-0"></h4>               
+                    <a href="/ui-checkin.html?reserve=${res.id}" class="btn btn-info" role="button">Check IN</a>                     
+                    <h4 class="text-muted mt-4 mb-0"></h4>`;                                   
                 }
+
+
+                if(res.status=="CHECKED_IN") {
+                    node_str += `<h4 class="text-muted mt-4 mb-0"></h4>               
+                    <a href="/ui-enroll.html?reserve=${res.id}" class="btn btn-info" role="button">Enroll new</a>                     
+                    <h4 class="text-muted mt-4 mb-0"></h4>`;     
+                    
+                    
+                    if(res.num_of_guests.length>0) {
+
+                        node_str += `<div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Username</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>`;
+
+                        for(var c=0; c<res.num_of_guests.length; c++) {
+                        node_str += `
+                                            <tr>
+                                                <td>${res.num_of_guests[c].id}</td>
+                                                <td>${res.num_of_guests[c].id}</td>
+                                            </tr>`;
+                        }
+
+                        node_str += `
+                                        </tbody>
+                                    </table>
+                                </div>`;                    
+                    }
+                }
+                
+
+                if(res.status=="CANCELED") {
+                    node_str += `<h4 class="text-muted mt-4 mb-0"></h4>               
+                    <a href="#" class="btn btn-info" role="button">Canceled</a>                     
+                    <h4 class="text-muted mt-4 mb-0"></h4>`;                                   
+                }
+             
+                
+                if(res.status=="CHECKED_OUT") {
+                    node_str += `<h4 class="text-muted mt-4 mb-0"></h4>               
+                    <a href="#" class="btn btn-info" role="button">Checked out</a>                     
+                    <h4 class="text-muted mt-4 mb-0"></h4>`;                                   
+                }
+             
+
+                clone.querySelector('.card-block').innerHTML = node_str;
+                
+                reservations_container.appendChild(clone);
             }
 
         } else {

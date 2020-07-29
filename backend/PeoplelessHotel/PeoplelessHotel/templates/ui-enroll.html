@@ -1,0 +1,89 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Forms {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+       
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- [ Main Content ] start -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>Enroll guest</h5>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <form class="needs-validation" novalidate>
+                                          <div class="form-row">
+                                            <div class="col-md-4 mb-3">
+                                              <label for="validationCustom01">Name</label>
+                                              <input type="text" class="form-control" id="validationCustom01" placeholder="Name" required>
+                                               <div class="invalid-feedback">
+                                                  Please enter a valid name.
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 mb-3">
+                                              <label for="validationCustom02">Passport</label>
+                                              <input type="text" class="form-control" id="validationCustom02" placeholder="Passport"  required>
+                                             <div class="invalid-feedback">
+                                                        Please enter a passport number
+                                             </div>
+                                            </div>                               
+                                          </div>
+                               
+                                          <br>
+                                          
+                                        <div class="form-row">
+                                          <div class="form-actions">
+                                            <a href="javascript:commitCheckin()" class="btn btn-info" role="button">Save</a>                               
+                                        </div>                  
+                                      </div>                  
+                                    </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ Main Content ] end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+  
+  
+async function commitCheckin() {
+    try { 
+    const params = new URLSearchParams(window.location.search);
+    let reserveid = params.get("reserve");
+    let proxy = new ServicesProxy();
+    let fullres = await proxy.getReservation(reserveid);
+    if(fullres) {
+      fullres.status = "CHECKED_IN";
+      await proxy.updateReservation(fullres);
+    } else {
+      console.error("failed to update");
+    }
+  } catch(ex) {
+    console.error(ex);
+  }
+
+};
+
+</script>
+{% endblock javascripts %}
