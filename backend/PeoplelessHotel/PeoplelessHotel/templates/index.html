@@ -69,34 +69,27 @@
                  `;
 
                  if(res.rooms.length>0) {
-                    node_str += `<h4 class="text-muted mt-4 mb-0">Rooms: ${res.rooms.length}</h4>`;                            
+                    node_str += `<h4 class="text-muted mt-4 mb-0">Rooms:</h4>`;                            
                     node_str += `
                         <div class="table-responsive">
-                        <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Number</th>
-                                <th>Type</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
+                        <table class="table">            
                         <tbody>`;
 
                     for(let c=0; c<res.rooms.length; c++) {
-                    node_str += `
-                        <tr>
-                            <td>${res.rooms.id}</td>
-                            <td>${res.rooms.id}</td>
-                            <td>${res.rooms.id}</td>
-                        </tr>`;
+                        let r = res.rooms[c].room;
+                        node_str += `
+                            <tr>
+                                <td>${r.number}</td>
+                                <td>${r.type}</td>
+                            </tr>`;
                     }
 
                     node_str += `
                         </tbody>
                         </table>
-                        </div>`;                    
-                
+                        </div>`;                                    
                  }
+
 
                 if(res.status=="RESERVED") {
                     node_str += `<h4 class="text-muted mt-4 mb-0"></h4>               
@@ -105,39 +98,34 @@
                 }
 
 
-                if(res.status=="CHECKED_IN") {
-                    node_str += `<h4 class="text-muted mt-4 mb-0"></h4>               
-                    <a href="/ui-enroll.html?reserve=${res.id}" class="btn btn-info" role="button">Enroll new</a>                     
-                    <h4 class="text-muted mt-4 mb-0"></h4>`;     
-                    
-                    
+                if(res.status=="CHECKED_IN") {                    
+                    node_str += `<h4 class="text-muted mt-4 mb-0">Guests:</h4>`;                            
                     if(res.num_of_guests.length>0) {
+                    node_str += `
+                        <div class="table-responsive">
+                        <table class="table">            
+                        <tbody>`;
 
-                        node_str += `<div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Username</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>`;
-
-                        for(var c=0; c<res.num_of_guests.length; c++) {
+                    for(let c=0; c<res.num_of_guests.length; c++) {
+                        let r = res.num_of_guests[c];
                         node_str += `
-                                            <tr>
-                                                <td>${res.num_of_guests[c].id}</td>
-                                                <td>${res.num_of_guests[c].id}</td>
-                                            </tr>`;
-                        }
-
-                        node_str += `
-                                        </tbody>
-                                    </table>
-                                </div>`;                    
+                            <tr>
+                                <td>${r.number}</td>
+                                <td>${r.type}</td>
+                            </tr>`;
                     }
-                }
+
+                    node_str += `
+                        </tbody>
+                        </table>
+                        </div>`;                                    
+                 }
+                 node_str += `<h4 class="text-muted mt-4 mb-0"></h4>               
+                    <a href="/ui-enroll.html?reserve=${res.id}" class="btn btn-info" role="button">Enroll guest</a>                     
+                    <h4 class="text-muted mt-4 mb-0"></h4>`;     
                 
+                }
+                 
 
                 if(res.status=="CANCELED") {
                     node_str += `<h4 class="text-muted mt-4 mb-0"></h4>               
