@@ -68,7 +68,7 @@
                                     <select id="rooms_select" class="form-control">                      
                             </select>
                             <br/>
-                            <button type="button"  onclick="validateFingerprint()" class="btn btn-primary">Check</button>                        
+                            <button type="button"  onclick="validateFace()" class="btn btn-primary">Check</button>                        
                             </div>
                         </div>         
                         </div>
@@ -92,7 +92,7 @@
                         <div class="col-xl-4 col-md-6">
                             <div class="card card-event">
                                 <div class="card-block">
-                                    <video width="100%"      autoplay="true" id="video_player">
+                                    <video width="100%"  autoplay="true" id="video_player">
                                     </video>
                                 </div>
                             </div>
@@ -151,6 +151,10 @@
             door_image.src = "../static/assets/images/door_opened.png";
         }
 
+
+        var width = 640;    // We will scale the photo width to this
+        var height = 480;     // This will be computed based on the input stream
+
         async function startVideo () {
             try { 
                 var video = document.querySelector("#video_player");
@@ -165,11 +169,6 @@
             }
         }
 
-        var width = 640;    // We will scale the photo width to this
-        var height = 480;     // This will be computed based on the input stream
-
-        var streaming = false;
-
         function takePicture() {
             var context = canvas.getContext('2d');
             if (width && height) {
@@ -182,8 +181,9 @@
             } 
             return data;
         }
+        startVideo();
 
-        async function validateFingerprint() {
+        async function validateFace() {
             let roomid = rooms_select.value;
             let data = takePicture();
 
@@ -194,7 +194,6 @@
 
         }
 
-        startVideo();
 
         $("#rooms_select").on('change', (x)=> {
             closeDoor();

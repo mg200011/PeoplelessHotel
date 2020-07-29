@@ -165,6 +165,7 @@ async function commitCheckin() {
     if(fullres) {
       fullres.status = "CHECKED_IN";
       await proxy.updateReservation(fullres);
+      window.location.href = '/';
     } else {
       console.error("failed to update");
     }

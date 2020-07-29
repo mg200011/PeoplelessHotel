@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} UI Forms {% endblock %} 
+{% block title %} UI Forms {% endblock %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -8,56 +8,105 @@
 {% block content %}
 
 <div class="pcoded-content">
-    <div class="pcoded-inner-content">
-       
-        <div class="main-body">
-            <div class="page-wrapper">
-                <!-- [ Main Content ] start -->
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5>Enroll guest</h5>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <form class="needs-validation" novalidate>
-                                          <div class="form-row">
-                                            <div class="col-md-4 mb-3">
-                                              <label for="validationCustom01">Name</label>
-                                              <input type="text" class="form-control" id="validationCustom01" placeholder="Name" required>
-                                               <div class="invalid-feedback">
-                                                  Please enter a valid name.
-                                                </div>
-                                            </div>
+  <div class="pcoded-inner-content">
 
-                                            <div class="col-md-4 mb-3">
-                                              <label for="validationCustom02">Passport</label>
-                                              <input type="text" class="form-control" id="validationCustom02" placeholder="Passport"  required>
-                                             <div class="invalid-feedback">
-                                                        Please enter a passport number
-                                             </div>
-                                            </div>                               
-                                          </div>
-                               
-                                          <br>
-                                          
-                                        <div class="form-row">
-                                          <div class="form-actions">
-                                            <a href="javascript:commitCheckin()" class="btn btn-info" role="button">Save</a>                               
-                                        </div>                  
-                                      </div>                  
-                                    </form>
-                                    </div>
-                                </div>
-                            </div>
+    <div class="main-body">
+      <div class="page-wrapper">
+        <!-- [ Main Content ] start -->
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="card">
+              <div class="card-body">
+                <h5>Enroll guest</h5>
+                <hr>
+                <div class="row">
+                  <div class="col-md-12">
+                    <form class="needs-validation" novalidate>
+                      <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                          <label for="validationCustom01">Name</label>
+                          <input type="text" class="form-control" id="guest_name" placeholder="Name" required>
+                          <div class="invalid-feedback">
+                            Please enter a valid name.
+                          </div>
                         </div>
-                    </div>
+
+                        <div class="col-md-4 mb-3">
+                          <label for="validationCustom02">Passport</label>
+                          <input type="text" class="form-control" id="guest_passport" placeholder="Passport" required>
+                          <div class="invalid-feedback">
+                            Please enter a passport number
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
                 </div>
-                <!-- [ Main Content ] end -->
+
+
+                <!-- Here go the placeholder images -->
+                <div class="row">
+                  <style>
+                    .placeholder-image {
+                      width: 150px;
+                    }
+                  </style>
+                  <div class="col-md-3">
+                    <image onclick="showModalDialog(this)" class="placeholder-image"
+                      src="/static/assets/images/placeholder.jpg" id="portrait1"></image>
+                  </div>
+                  <div class="col-md-3">
+                    <image onclick="showModalDialog(this)" class="placeholder-image"
+                      src="/static/assets/images/placeholder.jpg" id="portrait2"></image>
+                  </div>
+                  <div class="col-md-3">
+                    <image onclick="showModalDialog(this)" class="placeholder-image"
+                      src="/static/assets/images/placeholder.jpg" id="portrait3"></image>
+                  </div>
+                </div>
+
+                <br><br>
+
+
+
+                <!-- this is the dialog window  -->
+                <div id="modal_dialog" class="modal fade" tabindex="-1" role="dialog">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-body">
+                        <div class="card card-event">
+                          <div class="card-block">
+                            <video width="100%" autoplay="true" id="video_player">
+                            </video>
+                            <button type="button" onclick="takePicture()" class="btn btn-primary">Snap</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <a href="javascript:saveGuest()" class="btn btn-info" role="button">Save</a>
+                  </div>
+                </div>
+
+
+                <canvas width="640" id="canvas" style="visibility:hidden"></canvas>
+
+
+
+              </div>
             </div>
+          </div>
         </div>
+
+
+        <!-- [ Main Content ] end -->
+      </div>
     </div>
+  </div>
 </div>
 
 {% endblock content %}
@@ -65,25 +114,127 @@
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 <script>
-  
-  
-async function commitCheckin() {
-    try { 
-    const params = new URLSearchParams(window.location.search);
-    let reserveid = params.get("reserve");
-    let proxy = new ServicesProxy();
-    let fullres = await proxy.getReservation(reserveid);
-    if(fullres) {
-      fullres.status = "CHECKED_IN";
-      await proxy.updateReservation(fullres);
-    } else {
-      console.error("failed to update");
+
+  let stream = null;
+
+
+  async function stopVideo() {
+    if (stream) {
+      stream.getTracks().forEach(t => t.stop())
     }
-  } catch(ex) {
-    console.error(ex);
+    stream = null;
   }
 
-};
+  function dataURItoBlob(dataURI) {
+    var byteString = atob(dataURI.split(',')[1]);
+
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+
+    var bb = new Blob([ab], { "type": mimeString });
+    return bb;
+  }
+
+  async function startVideo() {
+    try {
+      var video = document.querySelector("#video_player");
+      stopVideo();
+      if (navigator.mediaDevices.getUserMedia) {
+        stream = await navigator.mediaDevices.getUserMedia({ video: { width: 640 } });
+        video.srcObject = stream;
+      }
+
+    } catch (ex) {
+      console.log(ex);
+    }
+  }
+
+
+  let image_object = null;
+
+  async function showModalDialog(name) {
+    startVideo();
+    image_object = name;
+    console.log(name);
+    $(modal_dialog).modal();
+    $(modal_dialog).on("hidden.bs.modal", function () {
+      stopVideo();
+    });
+  }
+
+
+  var width = 640;    // We will scale the photo width to this
+  var height = 480;     // This will be computed based on the input stream
+
+  function takePicture() {
+    var context = canvas.getContext('2d');
+    if (width && height) {
+      canvas.width = width;
+      canvas.height = height;
+      context.drawImage(video_player, 0, 0, width, height);
+
+      var data = canvas.toDataURL('image/jpeg');
+      image_object.setAttribute('src', data);
+      image_object.blob = dataURItoBlob(data);
+    }
+    $(modal_dialog).modal('hide');
+    return data;
+  }
+
+
+
+  async function saveGuest() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      let guest = params.get("guest");
+      let reservationid = params.get("reservationid");
+      let proxy = new ServicesProxy();
+
+      if (guest) {
+
+      } else {
+
+        debugger;
+        
+        var formData = new FormData();
+        if (portrait1.blob)
+          formData.append("image_sample_1", portrait1.blob);
+
+        if (portrait2.blob)
+          formData.append("image_sample_2", portrait2.blob);
+
+        if (portrait3.blob)
+          formData.append("image_sample_3", portrait3.blob);
+
+        formData.append("name", guest_name.value);
+
+        formData.append("passport", guest_passport.value);
+
+        formData.append("reservation", reservationid);
+
+
+        var request = new XMLHttpRequest();
+        request.onload = (p1, p2, p3) => {
+          console.log(p1);
+          console.log(p2);
+          console.log(p3);
+        };
+
+        request.open("POST", "/guests/");
+        request.send(formData);
+
+      }
+
+    } catch (ex) {
+      console.error(ex);
+    }
+
+  };
 
 </script>
 {% endblock javascripts %}
