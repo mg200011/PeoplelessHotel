@@ -1,6 +1,8 @@
+import base64
 import json
 
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
@@ -36,6 +38,7 @@ from azure.cognitiveservices.vision.face.models import TrainingStatusType, Perso
 
 # Create your views here.
 from PeoplelessHotel.custom_auth import CsrfExemptSessionAuthentication
+from django.core.files.base import ContentFile
 
 
 class GuestsService(ModelViewSet):
@@ -46,7 +49,64 @@ class GuestsService(ModelViewSet):
     filter_fields = ('id',)
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
 
+    @classmethod
+    def convertb64(cls, image):
+        format, imgstr = image.split(';base64,')
+        ext = format.split('/')[-1]
+        m = hashlib.md5()
+        m.update(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S").encode('utf-8'))
+        image_data = ContentFile(b64decode(imgstr), name=m.hexdigest() + "." + ext)
+        return image_data
 
+    def create(self, request, *args, **kwargs):
+
+        try:
+            data = request.data
+
+            result = super(GuestsService, self).create(request, *args, **kwargs)
+
+            obj = Guests.objects.get(pk=result.data['id'])
+            if "image1" in data:
+                obj.image_sample_1 = self.convertb64(data['image1'])
+            if "image2" in data:
+                obj.image_sample_2 = self.convertb64(data['image2'])
+            if "image3" in data:
+                obj.image_sample_3 = self.convertb64(data['image3'])
+            obj.save()
+            obj = Guests.objects.get(pk=result.data['id'])
+
+            result.data = GuestsSerializer(obj).data
+
+            return result
+
+        except Exception as E:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    def update(self, request, *args, **kwargs):
+        try:
+            data = request.data
+
+            result = super(GuestsService, self).update(request, *args, **kwargs)
+
+            obj = Guests.objects.get(pk=kwargs['pk'])
+            if "image1" in data:
+                obj.image_sample_1 = self.convertb64(data['image1'])
+            if "image2" in data:
+                obj.image_sample_2 = self.convertb64(data['image2'])
+            if "image3" in data:
+                obj.image_sample_3 = self.convertb64(data['image3'])
+            obj.save()
+            obj = Guests.objects.get(pk=kwargs['pk'])
+
+            result.data = GuestsSerializer(obj).data
+
+            return result
+
+        except Exception as E:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+    @csrf_exempt
     @api_view(['GET'])
     def create_person_group(request, reservation_id):
 
@@ -80,7 +140,7 @@ class GuestsService(ModelViewSet):
         except Exception as E:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-
+    @csrf_exempt
     @api_view(['GET'])
     def add_person_to_group(request, person_group_id, guest_id):
         try:
@@ -111,6 +171,7 @@ class GuestsService(ModelViewSet):
         except Exception as E:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+    @csrf_exempt
     @api_view(['GET'])
     def train_person_group(request, person_group_id):
 
@@ -142,7 +203,8 @@ class GuestsService(ModelViewSet):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-    @api_view(['POST']) #multipart 'image' file
+    @csrf_exempt
+    @api_view(['POST'])
     def identify_in_person_group(request, room_id):
 
         try:
@@ -161,8 +223,16 @@ class GuestsService(ModelViewSet):
 
             if reservation_results:
 
+                data = request.data
+                img = data['image']
+
+                format, imgstr = img.split(';base64,')
+                ext = format.split('/')[-1]
+
+                file_data = ContentFile(base64.b64decode(imgstr), name=str(uuid.uuid4()) + '.' +ext)
+
                 # Group image for testing against
-                group_photo = request.FILES['image'].file
+                group_photo = file_data.file
 
                 face_ids = []
                 faces = face_client.face.detect_with_stream(group_photo)
@@ -186,8 +256,7 @@ class GuestsService(ModelViewSet):
         except Exception as E:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-
-
+    @csrf_exempt
     @api_view(['GET'])
     def delete_person_group(request, person_group_id):
 
