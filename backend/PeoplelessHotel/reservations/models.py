@@ -16,7 +16,7 @@ class Reservations(models.Model):
     num_of_guests = models.IntegerField(null=False, blank=False)
     checkin_date = models.DateField(null=True, blank=True)
     num_of_days = models.IntegerField(null=False, blank=False)
-    status = models.CharField(max_length=32, choices=RESERVATION_STATUS)
+    status = models.CharField(max_length=32, choices=RESERVATION_STATUS, default='RESERVED')
     creation_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:

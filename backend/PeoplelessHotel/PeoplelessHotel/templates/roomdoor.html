@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+        Peopleless hotel
+    </title>
+    <!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 10]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="Datta Able Bootstrap admin template made using Bootstrap 4 and it has huge amount of ready made feature, UI components, pages which completely fulfills any dashboard needs." />
+    <meta name="keywords" content="admin templates, bootstrap admin templates, bootstrap 4, dashboard, dashboard templets, sass admin templets, html admin templates, responsive, bootstrap admin templates free download,premium bootstrap admin templates, datta able, datta able bootstrap admin template, free admin theme, free dashboard template"/>
+    <meta name="author" content="CodedThemes"/>
+
+    <!-- Favicon icon -->
+    <link rel="icon" href="/static/assets/images/favicon.ico" type="image/x-icon">
+    <!-- fontawesome icon -->
+    <link rel="stylesheet" href="/static/assets/fonts/fontawesome/css/fontawesome-all.min.css">
+    <!-- animation css -->
+    <link rel="stylesheet" href="/static/assets/plugins/animation/css/animate.min.css">
+    <!-- vendor css -->
+    <link rel="stylesheet" href="/static/assets/css/style.css">
+
+</head>
+
+<body>
+
+    
+    <!-- Add spinner object and methods -->
+    <div id="cover-spin"></div>
+    <script>
+        function showSpinner() {
+            console.log("show spinner");
+            $('#cover-spin').show(0);                
+        }
+
+        function hideSpinner() {
+            console.log("hide    spinner");
+            $('#cover-spin').hide(0);
+        }    
+    </script>
+    <!-- End spinner methods -->
+
+
+    <div class="pcoded-content">
+        <div class="pcoded-inner-content">
+            <!-- [ breadcrumb ] start -->
+
+            <!-- [ breadcrumb ] end -->
+            <div class="main-body">
+                <div class="page-wrapper">
+                    <!-- [ Main Content ] start -->
+                
+                    <div class="row">
+           
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card card-event">
+                                    <div class="card-block">
+                                        <h3 class="text-muted mt-4 mb-0">Check room status</h3>
+                                    <br>
+                                    <select id="rooms_select" class="form-control">                      
+                            </select>
+                            <br/>
+                            <button type="button"  onclick="validateFingerprint()" class="btn btn-primary">Check</button>                        
+                            </div>
+                        </div>         
+                        </div>
+                    
+
+                    <div class="col-xl-4 col-md-6">
+                    <div class="card card-event">
+                    <div class="card-block">
+                    <h3 class="text-muted mt-4 mb-0">Call service output</h3>
+                    <h5 id="lognode" class="text-muted mt-4 mb-0"></h3>
+                    </div>
+                    </div>         
+                    </div>
+
+                </div>
+
+                <div class="row">
+                          
+
+                        <!-- [ statistics year chart ] start -->
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card card-event">
+                                <div class="card-block">
+                                    <video width="100%"      autoplay="true" id="video_player">
+                                    </video>
+                                </div>
+                            </div>
+                        </div>
+                        
+                                     
+                        <!-- [ statistics year chart ] start -->
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card card-event">
+                                <div class="card-block">
+                                 <image id="door_image" src="../static/assets/images/door_closed.png"></image>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                        <div class="row">
+                               
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card card-event">
+                                <div class="card-block">
+                                    <h3 class="text-muted mt-4 mb-0">Image to check</h3>
+                                    <br/>
+                                    <div class="output">
+                                        <img id="photo" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D" width="100%" alt="The screen capture will appear in this box.">
+                                      </div>
+                                      <canvas id="canvas" style="visibility:hidden"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                    <!-- [ Main Content ] end -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Required Js -->
+    <script src="/static/assets/js/vendor-all.min.js"></script>
+    <script src="/static/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/assets/js/pcoded.min.js"></script>
+
+    <script src="/static/assets/js/services.js"></script>
+    <script src="/static/assets/js/servicesproxy.js"></script>
+
+    <script>
+
+        function closeDoor() {
+            door_image.src = "../static/assets/images/door_closed.png";
+        }
+
+        function openDoor() {
+            door_image.src = "../static/assets/images/door_opened.png";
+        }
+
+        async function startVideo () {
+            try { 
+                var video = document.querySelector("#video_player");
+
+                if (navigator.mediaDevices.getUserMedia) {
+                    let stream = await navigator.mediaDevices.getUserMedia({ video: { width: 640 }  });
+                    video.srcObject = stream;
+                }
+            
+            } catch(ex) {
+                console.log(ex);
+            }
+        }
+
+        var width = 640;    // We will scale the photo width to this
+        var height = 480;     // This will be computed based on the input stream
+
+        var streaming = false;
+
+        function takePicture() {
+            var context = canvas.getContext('2d');
+            if (width && height) {
+                canvas.width = width;
+                canvas.height = height;
+                context.drawImage(video_player, 0, 0, width, height);
+                
+                var data = canvas.toDataURL('image/png');
+                photo.setAttribute('src', data);
+            } 
+            return data;
+        }
+
+        async function validateFingerprint() {
+            let roomid = rooms_select.value;
+            let data = takePicture();
+
+            lognode.innerHTML = "";
+            lognode.innerHTML += "Checking image for room: " + roomid + "<br>";
+
+            openDoor();
+
+        }
+
+        startVideo();
+
+        $("#rooms_select").on('change', (x)=> {
+            closeDoor();
+            console.log(rooms_select.value);                        
+        })
+
+        var f = async() => {
+            var s= new ServicesProxy();
+            var r = await s.getRooms();
+            r.forEach(element => {
+                $("#rooms_select").append('<option value="'+element.id+'">'+element.number+ '(' + element.description + ')' + '</option>');
+            });
+        };
+        f();
+    </script>
+
+</body>
+</html>
