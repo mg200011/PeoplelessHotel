@@ -53,6 +53,24 @@
 
 
 <script>
+
+    async function handleCheckbox(obj, guest_id, room_id) {        
+        var s = new Services();
+
+        let mguest = await s.gget(`/guests/${guest_id}`);
+
+        let room_list = JSON.parse(mguest.rooms);
+        if(!room_list)
+            room_list = [];
+        
+        if(room_list.find(e => e==room_id)) {
+            room_list = room_list.filter(n => n!=room_id);            
+        } else {
+            room_list.push(room_id)
+        }
+        
+        s.gpatch(`/guests/${guest_id}`, { rooms : JSON.stringify(room_list) });
+    }
      document.addEventListener("DOMContentLoaded", async () => {
         var s= new ServicesProxy();
         var r = await s.getReservations();
@@ -114,12 +132,23 @@
 
                     for(let c=0; c<res.guests_rooms.length; c++) {
                         let guest = res.guests_rooms[c];
+
+                            
+                        let guest_rooms = [];
+                        try {
+                            if(guest.rooms)
+                                guest_rooms = JSON.parse(guest.rooms);
+                        } catch(ex) {
+                            guest_rooms = [];
+                        }
+
+                        
                         for(let cr=0; cr<res.rooms.length; cr++) {
                         let room = res.rooms[cr].room;
                         node_str += `
                             <tr>
                                 <td>${guest.name}</td>
-                                <td><input type="checkbox">&nbsp;${room.number}</td>
+                                <td><input onclick='handleCheckbox(this, ${guest.id}, ${room.id})' type="checkbox" ${guest_rooms.find(e=>e===room.id) ? "checked" : ""}>&nbsp;${room.number}</td>
                             </tr>`;
                         }
                     }

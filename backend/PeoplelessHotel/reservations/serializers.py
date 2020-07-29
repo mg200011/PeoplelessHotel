@@ -18,4 +18,4 @@ class ReservationsSerializerWithChilds(serializers.ModelSerializer):
     class Meta:
         model = Reservations
         fields = '__all__'
-        fields = ('id', 'user', 'num_of_guests', 'checkin_date', 'num_of_days', 'status', 'creation_date', 'guests_rooms', 'rooms')
+        fields = ('id', 'user', 'num_of_guests', 'checkin_date', 'num_of_days', 'status', 'creation_date', 'guests_rooms', 'rooms', 'person_group_id')

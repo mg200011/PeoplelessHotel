@@ -180,7 +180,7 @@
 
       var data = canvas.toDataURL('image/jpeg');
       image_object.setAttribute('src', data);
-      image_object.blob = dataURItoBlob(data);
+      image_object.base64str = data;
     }
     $(modal_dialog).modal('hide');
     return data;
@@ -193,41 +193,41 @@
       const params = new URLSearchParams(window.location.search);
       let guest = params.get("guest");
       let reservationid = params.get("reservationid");
-      let proxy = new ServicesProxy();
+      let proxy = new Services();
 
       if (guest) {
 
       } else {
 
-        debugger;
+        let postobj = {};
+        if(portrait1.base64str)
+          postobj.image1 = portrait1.base64str;
+
+        if(portrait2.base64str)
+        postobj.image2 = portrait2.base64str;
+
+        if(portrait3.base64str)
+          postobj.image3 = portrait3.base64str;
         
-        var formData = new FormData();
-        if (portrait1.blob)
-          formData.append("image_sample_1", portrait1.blob);
+        postobj.name = guest_name.value;
 
-        if (portrait2.blob)
-          formData.append("image_sample_2", portrait2.blob);
+        postobj.passport = guest_passport.value;
 
-        if (portrait3.blob)
-          formData.append("image_sample_3", portrait3.blob);
+        postobj.reservation = reservationid;
 
-        formData.append("name", guest_name.value);
+        if(portrait1.base64str || portrait2.base64str || portrait3.base64str) { 
+          let res = await proxy.gpost("/guests/", postobj);
+          console.log(res);
 
-        formData.append("passport", guest_passport.value);
+          if(res) {
+            let proxy2 = new ServicesProxy();
+            await proxy2.createPersonGroup(reservationid, res.id);
 
-        formData.append("reservation", reservationid);
+            await proxy2.trainPersonGroup(reservationid);            
+          }
 
-
-        var request = new XMLHttpRequest();
-        request.onload = (p1, p2, p3) => {
-          console.log(p1);
-          console.log(p2);
-          console.log(p3);
-        };
-
-        request.open("POST", "/guests/");
-        request.send(formData);
-
+          window.location.href = "/";
+        }
       }
 
     } catch (ex) {

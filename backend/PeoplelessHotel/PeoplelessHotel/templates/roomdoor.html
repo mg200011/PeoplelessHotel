@@ -37,12 +37,10 @@
     <div id="cover-spin"></div>
     <script>
         function showSpinner() {
-            console.log("show spinner");
             $('#cover-spin').show(0);                
         }
 
         function hideSpinner() {
-            console.log("hide    spinner");
             $('#cover-spin').hide(0);
         }    
     </script>
@@ -187,11 +185,20 @@
             let roomid = rooms_select.value;
             let data = takePicture();
 
+
+            let proxy2 = new ServicesProxy();
+            let response = await proxy2.verifyPerson(roomid, data);
+
+        
             lognode.innerHTML = "";
             lognode.innerHTML += "Checking image for room: " + roomid + "<br>";
+            lognode.innerHTML += JSON.stringify(response) + "<br>";
 
-            openDoor();
-
+            if(response) {
+                openDoor();
+            } else {
+                closeDoor();
+            }
         }
 
 
