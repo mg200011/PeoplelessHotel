@@ -18,6 +18,7 @@ class Reservations(models.Model):
     num_of_days = models.IntegerField(null=False, blank=False)
     status = models.CharField(max_length=32, choices=RESERVATION_STATUS, default='RESERVED')
     creation_date = models.DateTimeField(auto_now_add=True)
+    person_group_id = models.CharField(max_length=64, null=True, blank=True )
 
     class Meta:
         verbose_name = "Reservation"

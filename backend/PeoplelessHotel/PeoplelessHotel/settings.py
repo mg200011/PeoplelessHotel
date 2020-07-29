@@ -141,6 +141,10 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'PeoplelessHotel/static'),
 )
 
+FACE_SUBSCRIPTION_KEY = 'd018d09f705147bb8b4104faee1b2796'
+FACE_ENDPOINT = 'https://pampitafaceapi.cognitiveservices.azure.com/'
+
+
 
 #############################################################
 #############################################################

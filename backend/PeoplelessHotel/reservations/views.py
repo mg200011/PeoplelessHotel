@@ -42,7 +42,7 @@ class ReservationsService(ModelViewSet):
                 return Response(status=status.HTTP_204_NO_CONTENT)
 
         except Reservations.DoesNotExist:
-            Response(status=status.HTTP_404_NOT_FOUND)
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
     @api_view(['GET'])
     def get_user_reservation_by_id(request, reservation_id):
@@ -56,5 +56,5 @@ class ReservationsService(ModelViewSet):
                 return Response(status=status.HTTP_204_NO_CONTENT)
 
         except Reservations.DoesNotExist:
-            Response(status=status.HTTP_404_NOT_FOUND)
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
