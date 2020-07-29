@@ -101,4 +101,32 @@ class Services {
         return new Error("failed to run put");
     }
 
+
+    async gpatch(url, data = {}) {
+        try { 
+            showSpinner();
+
+            const response = await fetch(url, {
+                method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                headers: {
+                  'Content-Type': 'application/json; charset=UTF-8'
+                },
+                body: JSON.stringify(data) // body data type must match "Content-Type" header
+            });
+      
+            
+            if(response.ok) {
+                hideSpinner();
+                return await response.json();
+            }
+
+        } catch(ex) {
+            console.log(ex);
+        }
+        hideSpinner();
+
+        return new Error("failed to run patch");
+    }
+
 }
