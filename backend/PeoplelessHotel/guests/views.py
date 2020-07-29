@@ -224,15 +224,16 @@ class GuestsService(ModelViewSet):
             if reservation_results:
 
                 data = request.data
-                img = data['image']
+                image = data['image']
 
-                format, imgstr = img.split(';base64,')
+                format, imgstr = image.split(';base64,')
                 ext = format.split('/')[-1]
-
-                file_data = ContentFile(base64.b64decode(imgstr), name=str(uuid.uuid4()) + '.' +ext)
+                m = hashlib.md5()
+                m.update(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S").encode('utf-8'))
+                image_data = ContentFile(b64decode(imgstr), name=m.hexdigest() + "." + ext)
 
                 # Group image for testing against
-                group_photo = file_data.file
+                group_photo = image_data.file
 
                 face_ids = []
                 faces = face_client.face.detect_with_stream(group_photo)
