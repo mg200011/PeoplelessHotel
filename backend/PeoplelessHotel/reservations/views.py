@@ -34,7 +34,7 @@ class ReservationsService(ModelViewSet):
     def get_user_reservations(request):
 
         try:
-            reservations = Reservations.objects.all()
+            reservations = Reservations.objects.filter(user_id=request.user.id)
             if reservations:
                 serializer = ReservationsSerializerWithChilds(reservations, many=True)
                 return Response(serializer.data)
@@ -48,7 +48,7 @@ class ReservationsService(ModelViewSet):
     def get_user_reservation_by_id(request, reservation_id):
 
         try:
-            reservations = Reservations.objects.filter(pk=reservation_id)
+            reservations = Reservations.objects.filter(pk=reservation_id, user_id=request.user.id)
             if reservations:
                 serializer = ReservationsSerializerWithChilds(reservations, many=True)
                 return Response(serializer.data)
