@@ -69,6 +69,16 @@ class ServicesProxy {
 
     
     
+    async verifyPersonGet(roomid, image) {
+        const s = new Services();
+        let url = `/guests/identify_in_person_group/${roomid}/`; 
+        console.log(url);        
+        let res = await s.gget(url, { image: image } );
+        console.log(res);
+        return res;
+    }
+
+    
 
     
 
