@@ -133,7 +133,7 @@ class GuestsService(ModelViewSet):
             face_client.person_group.create(person_group_id=PERSON_GROUP_ID, name=PERSON_GROUP_ID)
 
             # Store PERSON_GROUP_ID to given reservation
-            Reservations.objects.filter(pk=reservation_id).update(person_group_id=PERSON_GROUP_ID)
+            Reservations.objects.filter(pk=int(reservation_id)).update(person_group_id=PERSON_GROUP_ID)
 
             return Response(PERSON_GROUP_ID, status=status.HTTP_201_CREATED)
 
@@ -152,7 +152,7 @@ class GuestsService(ModelViewSet):
                 Person id, and image list
             '''
 
-            person = face_client.person_group_person.create(person_group_id, guest_id)
+            person = face_client.person_group_person.create(person_group_id, int(guest_id))
 
             guest_record = Guests.objects.get(pk=int(guest_id))
 
@@ -219,7 +219,7 @@ class GuestsService(ModelViewSet):
 
             # GET person_group_id from RESERVATIONS - THE LAST CHECKED IN RESERVATION
             # Store PERSON_GROUP_ID to given reservation
-            reservation_results = Reservations.objects.filter(rooms__room__id=room_id, status="CHECKED_IN")
+            reservation_results = Reservations.objects.filter(rooms__room__id=int(room_id), status="CHECKED_IN")
 
             if reservation_results:
 
