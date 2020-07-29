@@ -3,19 +3,36 @@
 class Services {
 
 
-    async gget(url) {
-        
-        try { 
+    async gget(url, data = null) {
+
+        try {
             showSpinner();
 
-            let response = await fetch(url);
-            
-            if(response.ok) {
+            let response = null;
+
+            if (data) {
+                response = await fetch(url, {
+                    method: 'GET', // *GET, POST, PUT, DELETE, etc.
+                    mode: 'cors', // no-cors, *cors, same-origin
+                    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                    credentials: 'same-origin', // include, *same-origin, omit
+                    headers: {
+                        'Content-Type': 'application/json; charset=UTF-8'
+                    },
+                    redirect: 'follow', // manual, *follow, error
+                    body: JSON.stringify(data) // body data type must match "Content-Type" header
+                });
+
+            } else {
+                response = await fetch(url);
+            }
+
+            if (response.ok) {
                 hideSpinner();
                 return await response.json();
             }
 
-        } catch(ex) {
+        } catch (ex) {
             console.log(ex);
         }
         hideSpinner();
@@ -24,17 +41,17 @@ class Services {
     }
 
     async gdelete(url) {
-        try { 
+        try {
             showSpinner();
 
-            let response = await fetch(url, { method: "DELETE" } );
-            
-            if(response.ok) {
+            let response = await fetch(url, { method: "DELETE" });
+
+            if (response.ok) {
                 hideSpinner();
                 return await response.json();
             }
 
-        } catch(ex) {
+        } catch (ex) {
             console.log(ex);
         }
         hideSpinner();
@@ -43,7 +60,7 @@ class Services {
     }
 
     async gpost(url, data = {}) {
-        try { 
+        try {
             showSpinner();
 
             const response = await fetch(url, {
@@ -52,20 +69,19 @@ class Services {
                 cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
                 credentials: 'same-origin', // include, *same-origin, omit
                 headers: {
-                  'Content-Type': 'application/json; charset=UTF-8'
+                    'Content-Type': 'application/json; charset=UTF-8'
                 },
                 redirect: 'follow', // manual, *follow, error
-                referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
                 body: JSON.stringify(data) // body data type must match "Content-Type" header
             });
-      
-            
-            if(response.ok) {
+
+
+            if (response.ok) {
                 hideSpinner();
                 return await response.json();
             }
 
-        } catch(ex) {
+        } catch (ex) {
             console.log(ex);
         }
         hideSpinner();
@@ -75,25 +91,25 @@ class Services {
 
 
     async gput(url, data = {}) {
-        try { 
+        try {
             showSpinner();
 
             const response = await fetch(url, {
                 method: 'PUT', // *GET, POST, PUT, DELETE, etc.
                 cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
                 headers: {
-                  'Content-Type': 'application/json; charset=UTF-8'
+                    'Content-Type': 'application/json; charset=UTF-8'
                 },
                 body: JSON.stringify(data) // body data type must match "Content-Type" header
             });
-      
-            
-            if(response.ok) {
+
+
+            if (response.ok) {
                 hideSpinner();
                 return await response.json();
             }
 
-        } catch(ex) {
+        } catch (ex) {
             console.log(ex);
         }
         hideSpinner();
@@ -103,25 +119,25 @@ class Services {
 
 
     async gpatch(url, data = {}) {
-        try { 
+        try {
             showSpinner();
 
             const response = await fetch(url, {
                 method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
                 cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
                 headers: {
-                  'Content-Type': 'application/json; charset=UTF-8'
+                    'Content-Type': 'application/json; charset=UTF-8'
                 },
                 body: JSON.stringify(data) // body data type must match "Content-Type" header
             });
-      
-            
-            if(response.ok) {
+
+
+            if (response.ok) {
                 hideSpinner();
                 return await response.json();
             }
 
-        } catch(ex) {
+        } catch (ex) {
             console.log(ex);
         }
         hideSpinner();
