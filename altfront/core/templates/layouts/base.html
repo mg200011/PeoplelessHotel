@@ -36,12 +36,25 @@
 <body>
 
     <!-- [ Pre-loader ] start -->
-    <div class="loader-bg">
+        <div class="loader-bg">
         <div class="loader-track">
             <div class="loader-fill"></div>
-        </div>
-    </div>    
-    
+        </div></div>
+        
+        <!-- Add spinner object and methods -->
+        <div id="cover-spin"></div>
+        <script>
+            function showSpinner() {
+                console.log("show spinner");
+                $('#cover-spin').show(0);                
+            }
+
+            function hideSpinner() {
+                console.log("hide    spinner");
+                $('#cover-spin').hide(0);
+            }    
+        </script>
+        <!-- End spinner methods -->
 
         <div class="pcoded-wrapper">            
             <ul class="nav nav-pills navbar-dark bg-dark">
