@@ -264,7 +264,7 @@ class GuestsService(ModelViewSet):
             #     print('Person for face ID {} is identified in {} with a confidence of {}.'.format(person.face_id, os.path.basename(image.name), person.candidates[0].confidence))  # Get topmost confidence score
 
         except Exception as E:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return HttpResponse({"result": "Access Denied!"}, status=400)
 
     @csrf_exempt
     @api_view(['GET'])
