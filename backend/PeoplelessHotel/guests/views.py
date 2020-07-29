@@ -4,6 +4,7 @@ from django.shortcuts import render
 
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
+from rest_framework.authentication import BasicAuthentication
 from rest_framework.response import Response
 from rest_framework.decorators import *
 from rest_framework.filters import OrderingFilter
@@ -34,6 +35,7 @@ from azure.cognitiveservices.vision.face.models import TrainingStatusType, Perso
 
 
 # Create your views here.
+from PeoplelessHotel.custom_auth import CsrfExemptSessionAuthentication
 
 
 class GuestsService(ModelViewSet):
@@ -42,6 +44,7 @@ class GuestsService(ModelViewSet):
     rest_serializer = GuestsSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('id',)
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
 
 
     @api_view(['GET'])

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.authentication import BasicAuthentication
 from rest_framework.response import Response
 from rest_framework.decorators import *
 from rest_framework.filters import OrderingFilter
@@ -12,6 +13,7 @@ from .serializers import *
 from .models import *
 
 # Create your views here.
+from PeoplelessHotel.custom_auth import CsrfExemptSessionAuthentication
 
 
 class LoyaltyProgramService(ModelViewSet):
@@ -20,3 +22,4 @@ class LoyaltyProgramService(ModelViewSet):
     rest_serializer = LoyaltyProgramSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('id',)
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
