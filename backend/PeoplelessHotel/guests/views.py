@@ -154,7 +154,7 @@ class GuestsService(ModelViewSet):
 
             person = face_client.person_group_person.create(person_group_id, guest_id)
 
-            guest_record = reservations = Guests.objects.get(pk=guest_id)
+            guest_record = Guests.objects.get(pk=int(guest_id))
 
             if guest_record.image_sample_1 is not None:
                 w = open(guest_record.image_sample_1.path, 'r+b')
