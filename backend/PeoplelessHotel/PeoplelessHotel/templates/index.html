@@ -72,7 +72,7 @@
                     node_str += `<h4 class="text-muted mt-4 mb-0">Rooms:</h4>`;                            
                     node_str += `
                         <div class="table-responsive">
-                        <table class="table">            
+                        <table class="table">                
                         <tbody>`;
 
                     for(let c=0; c<res.rooms.length; c++) {
@@ -99,20 +99,29 @@
 
 
                 if(res.status=="CHECKED_IN") {                    
-                    node_str += `<h4 class="text-muted mt-4 mb-0">Guests:</h4>`;                            
-                    if(res.num_of_guests.length>0) {
+                    node_str += `<h4 class="text-muted mt-4 mb-0">Guests access:</h4>`;        
+                    if(res.guests_rooms.length>0) {
                     node_str += `
                         <div class="table-responsive">
-                        <table class="table">            
+                        <table class="table">    
+                        <thead>
+                            <tr>
+                                <th>Guest</th>
+                                <th>Room access</th>
+                            </tr>
+                        </thead>           
                         <tbody>`;
 
-                    for(let c=0; c<res.num_of_guests.length; c++) {
-                        let r = res.num_of_guests[c];
+                    for(let c=0; c<res.guests_rooms.length; c++) {
+                        let guest = res.guests_rooms[c];
+                        for(let cr=0; cr<res.rooms.length; cr++) {
+                        let room = res.rooms[cr].room;
                         node_str += `
                             <tr>
-                                <td>${r.number}</td>
-                                <td>${r.type}</td>
+                                <td>${guest.name}</td>
+                                <td><input type="checkbox">&nbsp;${room.number}</td>
                             </tr>`;
+                        }
                     }
 
                     node_str += `
@@ -121,9 +130,9 @@
                         </div>`;                                    
                  }
                  node_str += `<h4 class="text-muted mt-4 mb-0"></h4>               
-                    <a href="/ui-enroll.html?reserve=${res.id}" class="btn btn-info" role="button">Enroll guest</a>                     
-                    <h4 class="text-muted mt-4 mb-0"></h4>`;     
-                
+                    <a href="/ui-enroll.html?reservationid=${res.id}" class="btn btn-info" role="button">Enroll new guest</a>                     
+                    <h4 class="text-muted mt-4 mb-0"></h4>
+                    `;                     
                 }
                  
 
