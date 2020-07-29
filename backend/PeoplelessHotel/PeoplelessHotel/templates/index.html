@@ -1,0 +1,81 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="pcoded-content">
+        <div class="pcoded-inner-content">
+            <!-- [ breadcrumb ] start -->
+
+            <!-- [ breadcrumb ] end -->
+            <div class="main-body">
+                <div class="page-wrapper">
+                    <!-- [ Main Content ] start -->
+                    <div class="row">
+                        
+                        <!-- [ statistics year chart ] start -->
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card card-event">
+                                <div class="card-block">
+                                    <h3 class="text-muted mt-4 mb-0">Reservation</h3>
+                                    <h4 class="text-muted mt-4 mb-0">Number: 12345</h4>
+                                    <h4 class="text-muted mt-4 mb-0">To: Bubus & CIA</h4>
+                                    <h4 class="text-muted mt-4 mb-0">From 10/10/2020 to 10/20/2020 </h4>
+                                    <h4 class="text-muted mt-4 mb-0">Guests: 4</h4>
+                                    <h4 class="text-muted mt-4 mb-0"></h4>               
+                                    <a href="/ui-checkin.html" class="btn btn-info" role="button">Check IN</a>                     
+                                    <h4 class="text-muted mt-4 mb-0"></h4>                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <!-- [ statistics year chart ] start -->
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card card-event">
+                                <div class="card-block">
+                                    <h3 class="text-muted mt-4 mb-0">Reservation</h3>
+                                    <h4 class="text-muted mt-4 mb-0">Number: 12345</h4>
+                                    <h4 class="text-muted mt-4 mb-0">To: Bubus & CIA</h4>
+                                    <h4 class="text-muted mt-4 mb-0">From 10/10/2020 to 10/20/2020 </h4>
+                                    <h4 class="text-muted mt-4 mb-0">Guests: 4</h4>
+                                    <h4 class="text-muted mt-4 mb-0">Room 103</h4>
+                                    <h4 class="text-muted mt-4 mb-0">Room 104</h4>
+                                    <h4 class="text-muted mt-4 mb-0">Carlitos y pepe</h4>
+                                    <h4 class="text-muted mt-4 mb-0"></h4>                                    
+                                    <button type="button" class="btn btn-outline-success">Check in complete</button>
+                                    <h4 class="text-muted mt-4 mb-0"></h4>                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+
+
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card card-event">
+                                <div class="card-block">
+                                    <div class="row align-items-center justify-content-center">
+                                        <div class="col">
+                                            <h5 class="m-0">No reservation available</h5>
+                                        </div>                                       
+                                    </div>                              
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                    <!-- [ Main Content ] end -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

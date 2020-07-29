@@ -42,6 +42,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('guests/', include("guests.urls")),
     path('logs/', include("logs.urls")),
+    path("", include("authentication.urls")),  # add this
+    path("", include("app.urls")),  # add this
     path('loyalty_program/', include("loyalty_program.urls")),
     path('reservations/', include("reservations.urls")),
     path('reservations_rooms/', include("reservations_rooms.urls")),

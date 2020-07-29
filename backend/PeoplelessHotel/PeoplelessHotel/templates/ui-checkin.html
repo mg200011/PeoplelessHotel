@@ -1,0 +1,185 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Forms {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+       
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- [ Main Content ] start -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>Check-In</h5>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <form class="needs-validation" novalidate>
+                                          <div class="form-row">
+                                            <div class="col-md-4 mb-3">
+                                              <label for="validationCustom01">First name</label>
+                                              <input type="text" class="form-control" id="validationCustom01" placeholder="First name" required>
+                                               <div class="invalid-feedback">
+                                                  Please insert a valid name.
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                              <label for="validationCustom02">Last name</label>
+                                              <input type="text" class="form-control" id="validationCustom02" placeholder="Last name"  required>
+                                             <div class="invalid-feedback">
+                                                        Please fill a correct last name.
+                                                    </div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                              <label for="validationNationality">Nationality</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="validationNationality" placeholder="Username" aria-describedby="inputGroupPrepend" required>
+                                                    <div class="invalid-feedback">
+                                                        Please fill a correct nationality for.
+                                                    </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="form-row">
+                                            <div class="col-md-6 mb-3">
+                                              <label for="validationCustom03">City</label>
+                                              <input type="text" class="form-control" id="validationCustom03" placeholder="City" required>
+                                              <div class="invalid-feedback">
+                                                Please provide a valid city.
+                                              </div>
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                              <label for="validationCustom04">State</label>
+                                              <input type="text" class="form-control" id="validationCustom04" placeholder="State" required>
+                                              <div class="invalid-feedback">
+                                                Please provide a valid state.
+                                              </div>
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                              <label for="validationCustom05">Zip</label>
+                                              <input type="text" class="form-control" id="validationCustom05" placeholder="Zip" required>
+                                              <div class="invalid-feedback">
+                                                Please provide a valid zip.
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="form-row">
+                                            <div class="col-md-6 mb-6">
+                                               <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="carChecked">
+                                                    <label class="custom-control-label" for="carChecked" onclick="checkCar()">Arriving with a car</label>
+                                                 </div>
+                                            </div>
+                                            <div class="col-md-3 mb-6">
+                                              <label for="validationCar">Car Registration number</label>
+                                              <input type="text" class="form-control" id="validationCar" placeholder="Please insert car registration number" disabled>
+                                              <div class="invalid-feedback">
+                                                Please provide a valid state.
+                                              </div>
+                                            </div>
+                                          </div>
+                                          
+                                          <h5 class="mt-5">Pay Method</h5>
+                                           <hr>
+                                          <div class="form-row">
+                                             <div class="col-6 col-md-4">
+                                                <div class="custom-control custom-radio">
+                                                  <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="">
+                                                  <label class="custom-control-label" for="credit">Credit card</label>
+                                                </div>
+                                                <div class="custom-control custom-radio">
+                                                  <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required="">
+                                                  <label class="custom-control-label" for="debit">Debit card</label>
+                                                </div>
+                                                <div class="custom-control custom-radio">
+                                                  <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required="">
+                                                  <label class="custom-control-label" for="paypal">Paypal</label>
+                                                </div>
+                                            </div>
+                                       
+                                          <div class="col-6 col-md-4">
+                                            <label for="cc-name">Name on card</label>
+                                            <input type="text" class="form-control" id="cc-name" placeholder="" required="">
+                                            <small class="text-muted">Full name as displayed on card</small>
+                                            <div class="invalid-feedback">
+                                              Name on card is required
+                                            </div>
+                                          </div>
+                                          <div class="col-6 col-md-4">
+                                            <label for="cc-number">Credit card number</label>
+                                            <input type="text" class="form-control" id="cc-number" placeholder="" required="">
+                                            <div class="invalid-feedback">
+                                              Credit card number is required
+                                            </div>
+                                          </div>
+                                        </div>
+                                        </div>
+                                        <div class="form-row">
+                                          <div class="col-6 col-md-6">
+                                            <label for="cc-expiration">Expiration</label>
+                                            <input type="text" class="form-control" id="cc-expiration" placeholder="" required="">
+                                            <div class="invalid-feedback">
+                                              Expiration date required
+                                            </div>
+                                          </div>
+                                          <div class="col-6 col-md-4">
+                                            <label for="cc-expiration">CVV</label>
+                                            <input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
+                                            <div class="invalid-feedback">
+                                              Security code required
+                                            </div>
+                                          </div>
+                                          </div>
+                                          
+                                          </div>
+                                          </div>
+                                          <div class="form-actions">
+    <button type="submit" class="btn btn-login btn-lg btn-block">CHECK-IN</button>
+</div>
+                                          
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ Main Content ] end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
+{% endblock javascripts %}
