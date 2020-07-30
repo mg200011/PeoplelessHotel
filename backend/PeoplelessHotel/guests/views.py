@@ -247,17 +247,17 @@ class GuestsService(ModelViewSet):
                     results = face_client.face.identify(face_ids, reservation_results[0].person_group_id)
 
                     if not results:
-                        return HttpResponse({"result": "Access Denied!"}, status=403)
+                        return HttpResponse({"result": "Access Denied!"}, status=406)
                     else:
                         tmp_guest = Guests.objects.filter(person_id=results[0].candidates[0].person_id)
-                        if json.dumps(tmp_guest[0].rooms).__contains__(str(room_id)):
-                            return HttpResponse({"result": "Success!", "data": GuestsSerializer(tmp_guest[0])}, status=200)
+                        if len(tmp_guest) > 0 and json.dumps(tmp_guest[0].rooms).__contains__(str(room_id)):
+                            return HttpResponse({"result": "Success!", "data": GuestsSerializer(tmp_guest[0]).data}, status=200)
                         else:
-                            return HttpResponse({"result": "Access Denied for that room!"}, status=403)
+                            return HttpResponse({"result": "Access Denied for that room!"}, status=406)
                 else:
-                    return HttpResponse({"result": "No faces detected!"}, status=403)
+                    return HttpResponse({"result": "No faces detected!"}, status=406)
             else:
-                return HttpResponse({"result": "Access Denied!"}, status=403)
+                return HttpResponse({"result": "Access Denied!"}, status=406)
 
 
             # for person in results:
