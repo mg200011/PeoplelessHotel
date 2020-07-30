@@ -35,13 +35,12 @@ class ServicesProxy {
     }
 
     
-    async createPersonGroup(reserveid, guestid) {
+    async createPerson(reserveid, guestid) {
         const s = new Services();
         let resrv = await this.getReservation(reserveid);
         let url = `/guests/add_person_to_group/${resrv.person_group_id}/${guestid}/`;
         console.log(url);        
         let res = await s.gget(url);
-        console.log(res);
         return res;
     }
 
@@ -68,16 +67,6 @@ class ServicesProxy {
     }
 
     
-    
-    async verifyPersonGet(roomid, image) {
-        const s = new Services();
-        let url = `/guests/identify_in_person_group/${roomid}/`; 
-        console.log(url);        
-        let res = await s.gget(url, { image: image } );
-        console.log(res);
-        return res;
-    }
-
     
 
     

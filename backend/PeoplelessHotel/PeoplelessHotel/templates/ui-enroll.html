@@ -221,7 +221,7 @@
 
           if(res) {
             let proxy2 = new ServicesProxy();
-            await proxy2.createPersonGroup(reservationid, res.id);
+            await proxy2.createPerson(reservationid, res.id);
 
             await proxy2.trainPersonGroup(reservationid);            
           }
